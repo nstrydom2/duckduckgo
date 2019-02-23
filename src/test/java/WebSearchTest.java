@@ -1,5 +1,3 @@
-package org.bitninja.net.duckduckgo.search;
-
 import static org.junit.Assert.*;
 
 import org.json.JSONObject;

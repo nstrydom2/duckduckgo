@@ -1,5 +1,3 @@
-package org.bitninja.net.duckduckgo.search;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -9,8 +9,5 @@
         <module name="duckduckgo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="duckduckgo" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>
