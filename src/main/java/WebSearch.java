@@ -16,7 +16,7 @@ public class WebSearch {
 	private WebDriver driver = null;
 	
 	public WebSearch() {
-		System.setProperty("phantomjs.binary.path", "/usr/bin/phantomjs");
+		System.setProperty("phantomjs.binary.path", "/home/ghost/eclipse-workspace/duckduckgo/phantomjs/bin/phantomjs");
 		
 		this.driver = new PhantomJSDriver(capabilities);
 	}
@@ -24,14 +24,7 @@ public class WebSearch {
 	public ArrayList<URL> search(String query) throws Exception {
 		ArrayList<String> results = new ArrayList<String>();
 		
-		driver.get(String.format("https://duckduckgo.com/html", query));
-		
-		WebElement queryBox = driver.findElement(By.name("q"));
-		WebElement submitButton = driver.findElement(By.name("b"));
-		
-		// Send query to input box and click button
-		queryBox.sendKeys(query);
-		submitButton.click();
+		driver.get(String.format("https://duckduckgo.com/html%s", "?q=", query));
 		
 		List<WebElement> elements = driver.findElements(By.tagName("a"));
 		
@@ -39,10 +32,7 @@ public class WebSearch {
 		for (WebElement element : elements) {
 			
 			//System.out.println(element.getAttribute("href"));
-			
-			if (!element.getAttribute("href").equals(null)) {
-				results.add(element.getAttribute("href"));
-			}
+			results.add(element.getAttribute("href"));
 		}
 		
 		results = new ArrayList(new HashSet(results));
