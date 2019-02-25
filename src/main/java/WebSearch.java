@@ -21,20 +21,27 @@ public class WebSearch {
 		
 		//this.driver = new PhantomJSDriver(capabilities);
 	}
+
+	public Document getPage(String query) throws Exception {
+		final String DUCKDUCKGO_URL = "https://duckduckgo.com/html?q=";
+
+		return Jsoup.connect(DUCKDUCKGO_URL + query).get();
+	}
 	
 	public ArrayList<URL> search(String query) throws Exception {
 		final String DUCKDUCKGO_URL = "https://duckduckgo.com/html?q=";
 
 		ArrayList<String> results = new ArrayList<String>();
-		Document doc = Jsoup.connect(DUCKDUCKGO_URL + query).get();
+		Document doc = this.getPage(query);
 
 		//driver.get(String.format("https://duckduckgo.com/html?q=%s", query));
-		
+
 		//List<WebElement> elements = driver.findElements(By.tagName("a"));
 
 		try {
-			doc.body();
+			System.out.println(doc.body());
 
+			System.out.println();
 			// Find all titles, urls, and descriptions
 //			for (WebElement element : elements) {
 //
@@ -52,27 +59,27 @@ public class WebSearch {
 //			driver.close();
 
 			return null;
-		}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 
-		catch (Exception ex) {
-
+			return null;
 		}
 	}
 
-	@Deprecated
 	public JSONObject instantAnswerSearch(String query) throws Exception {
 		// Get request to api.duckduckgo.com
-		driver.get(String.format("https://api.duckduckgo.com/?q=%s&format=json", query));
-		
-		// Debug response
-		System.out.println(driver.getPageSource());
-		
-		// Grab json object from response
-		JSONObject jsonObject = new JSONObject(Jsoup.parse(driver.getPageSource()).text());
-		
-		// Close phantomjs Driver
-		driver.close();
-		
-		return jsonObject;
+//		driver.get(String.format("https://api.duckduckgo.com/?q=%s&format=json", query));
+//
+//		// Debug response
+//		System.out.println(driver.getPageSource());
+//
+//		// Grab json object from response
+//		JSONObject jsonObject = new JSONObject(Jsoup.parse(driver.getPageSource()).text());
+//
+//		// Close phantomjs Driver
+//		driver.close();
+//
+		//return jsonObject;
+		return null;
 	}
 }

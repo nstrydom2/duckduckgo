@@ -10,8 +10,8 @@ public class WebSearchTest {
 	private final WebSearch webSearchTest = new WebSearch();
 	
 	@Test
-	public void testSeleniumBasedWebSearchReturnIsNotNull() throws Exception {
-		assertNotNull(webSearchTest.search("test"));
+	public void returnsJsoupGetResult() throws Exception {
+		assertNotNull(webSearchTest.getPage("test"));
 	}
 	
 	@Ignore
