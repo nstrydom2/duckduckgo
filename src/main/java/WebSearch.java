@@ -6,6 +6,8 @@ import java.util.List;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,8 +30,8 @@ public class WebSearch {
 		return Jsoup.connect(DUCKDUCKGO_URL + query).get();
 	}
 	
-	public ArrayList<URL> search(String query) throws Exception {
-		final String DUCKDUCKGO_URL = "https://duckduckgo.com/html?q=";
+	public ArrayList<String> search(String query) throws Exception {
+		final String CLASSNAME = "result__a";
 
 		ArrayList<String> results = new ArrayList<String>();
 		Document doc = this.getPage(query);
@@ -39,26 +41,21 @@ public class WebSearch {
 		//List<WebElement> elements = driver.findElements(By.tagName("a"));
 
 		try {
-			System.out.println(doc.body());
-
-			System.out.println();
 			// Find all titles, urls, and descriptions
-//			for (WebElement element : elements) {
-//
-//				//System.out.println(element.getAttribute("href"));
-//				results.add(element.getAttribute("href"));
-//			}
-//
-//			results = new ArrayList(new HashSet(results));
-//
-//			for (String result : results) {
-//				System.out.println(result);
-//			}
-//
-//			// Close driver and stop phantomjs
-//			driver.close();
+			for (Element element : doc.getElementsByClass(CLASSNAME)) {
 
-			return null;
+				//System.out.println(element.getAttribute("href"));
+				results.add(element.data());
+			}
+
+			results = new ArrayList(new HashSet(results));
+
+			for (String result : results) {
+				System.out.println(result);
+			}
+
+			return results;
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 

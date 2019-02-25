@@ -13,6 +13,11 @@ public class WebSearchTest {
 	public void returnsJsoupGetResult() throws Exception {
 		assertNotNull(webSearchTest.getPage("test"));
 	}
+
+	@Test
+	public void printsElementsIAmLookingFor() throws Exception {
+		webSearchTest.search("test");
+	}
 	
 	@Ignore
 	@Test
