@@ -26,7 +26,7 @@ public class WebSearch {
 	public List<String> search(String query) throws Exception {
 		final String CLASSNAME = "result__a";
 
-		final HashSet<Object> tempSet = new HashSet<Object>();
+		final HashSet<String> tempSet = new HashSet<String>();
 		Document doc = this.getPage(query);
 
 		try {
