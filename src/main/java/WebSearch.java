@@ -16,7 +16,7 @@ public class WebSearch implements AutoCloseable {
 	/**
 	 * GET method to retrieve web page with results.
 	 *
-	 * @param query
+	 * @param query Search query for duckduckgo
 	 * @return
 	 * @throws Exception
 	 */
@@ -30,7 +30,7 @@ public class WebSearch implements AutoCloseable {
 	 * Runs the query through the html page using 'getPage()' method
 	 * above. Scrapes url results
 	 *
-	 * @param query
+	 * @param query Search query for duckduckgo
 	 * @return
 	 */
 	public List<String> search(String query) {
@@ -53,6 +53,13 @@ public class WebSearch implements AutoCloseable {
 		}
 	}
 
+	/**
+	 * Instant answer solution, completely inefficient but easy
+	 * and not redundant
+	 *
+	 * @param query Search query for duckduckgo
+	 * @return
+	 */
 	public String instantAnswerSearch(String query) {
 		return this.search(query).get(0);
 	}
