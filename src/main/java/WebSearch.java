@@ -15,14 +15,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 public class WebSearch {
-	//public DesiredCapabilities capabilities = new DesiredCapabilities();
-	//private WebDriver driver = null;
-	
-	public WebSearch() {
-		//System.setProperty("phantomjs.binary.path", "/home/ghost/eclipse-workspace/duckduckgo/phantomjs/bin/phantomjs");
-		
-		//this.driver = new PhantomJSDriver(capabilities);
-	}
+	private WebSearch() { }
 
 	public Document getPage(String query) throws Exception {
 		final String DUCKDUCKGO_URL = "https://duckduckgo.com/html?q=";
@@ -30,32 +23,23 @@ public class WebSearch {
 		return Jsoup.connect(DUCKDUCKGO_URL + query).get();
 	}
 	
-	public ArrayList<String> search(String query) throws Exception {
+	public List<String> search(String query) throws Exception {
 		final String CLASSNAME = "result__a";
 
-		ArrayList<String> results = new ArrayList<String>();
+		final HashSet<Object> tempSet = new HashSet<Object>();
 		Document doc = this.getPage(query);
-
-		//driver.get(String.format("https://duckduckgo.com/html?q=%s", query));
-
-		//List<WebElement> elements = driver.findElements(By.tagName("a"));
 
 		try {
 			// Find all titles, urls, and descriptions
 			for (Element element : doc.getElementsByClass(CLASSNAME)) {
-
-				//System.out.println(element.getAttribute("href"));
-				results.add(element.attr("href"));
+				tempSet.add(element.attr("href"));
 			}
 
-			results = new ArrayList(new HashSet(results));
+			doc.getElementsByClass(CLASSNAME).forEach(element -> {
+				tempSet.add(element.attr("href"));
+			});
 
-			for (String result : results) {
-				System.out.println(result);
-			}
-
-			return results;
-
+			return new ArrayList(tempSet);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 
@@ -63,6 +47,7 @@ public class WebSearch {
 		}
 	}
 
+	@Deprecated
 	public JSONObject instantAnswerSearch(String query) throws Exception {
 		// Get request to api.duckduckgo.com
 //		driver.get(String.format("https://api.duckduckgo.com/?q=%s&format=json", query));
@@ -78,5 +63,9 @@ public class WebSearch {
 //
 		//return jsonObject;
 		return null;
+	}
+
+	public static WebSearch instanceOf() {
+		return new WebSearch();
 	}
 }

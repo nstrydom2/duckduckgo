@@ -6,8 +6,10 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
+import java.util.List;
+
 public class WebSearchTest {
-	private final WebSearch webSearchTest = new WebSearch();
+	private final WebSearch webSearchTest = WebSearch.instanceOf();
 	
 	@Test
 	public void returnsJsoupGetResult() throws Exception {
@@ -16,7 +18,11 @@ public class WebSearchTest {
 
 	@Test
 	public void printsElementsIAmLookingFor() throws Exception {
-		webSearchTest.search("test");
+		List<String> testList = webSearchTest.search("test");
+
+		testList.forEach(System.out::println);
+
+		assertNotNull(testList);
 	}
 	
 	@Ignore
