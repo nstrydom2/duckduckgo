@@ -45,7 +45,7 @@ public class WebSearch {
 			for (Element element : doc.getElementsByClass(CLASSNAME)) {
 
 				//System.out.println(element.getAttribute("href"));
-				results.add(element.data());
+				results.add(element.attr("href"));
 			}
 
 			results = new ArrayList(new HashSet(results));
