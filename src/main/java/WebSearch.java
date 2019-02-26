@@ -11,7 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 public class WebSearch implements AutoCloseable {
-	private WebSearch() { }
 
 	/**
 	 * GET method to retrieve web page with results.
