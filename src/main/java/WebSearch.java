@@ -1,25 +1,42 @@
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+/**
+ * Class for creating an object to make queries to
+ * duckduckgo in a Java API
+ *
+ * @author Nicholas Strydom
+ * @version 0.1.5
+ */
 
-import org.json.JSONObject;
+import java.util.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class WebSearch {
+public class WebSearch implements AutoCloseable {
 	private WebSearch() { }
 
+	/**
+	 * GET method to retrieve web page with results.
+	 *
+	 * @param query
+	 * @return
+	 * @throws Exception
+	 */
 	public Document getPage(String query) throws Exception {
 		final String DUCKDUCKGO_URL = "https://duckduckgo.com/html?q=";
 
 		return Jsoup.connect(DUCKDUCKGO_URL + query).get();
 	}
-	
-	public List<String> search(String query) throws Exception {
+
+	/**
+	 * Runs the query through the html page using 'getPage()' method
+	 * above. Scrapes url results
+	 *
+	 * @param query
+	 * @return
+	 */
+	public List<String> search(String query) {
 		final String CLASSNAME = "result__a";
 
-		HashSet<String> tempSet = new HashSet<String>();
+		Set<String> tempSet = new TreeSet<String>();
 
 		try {
 			Document doc = this.getPage(query);
@@ -36,25 +53,14 @@ public class WebSearch {
 		}
 	}
 
-	@Deprecated
-	public JSONObject instantAnswerSearch(String query) throws Exception {
-		// Get request to api.duckduckgo.com
-//		driver.get(String.format("https://api.duckduckgo.com/?q=%s&format=json", query));
-//
-//		// Debug response
-//		System.out.println(driver.getPageSource());
-//
-//		// Grab json object from response
-//		JSONObject jsonObject = new JSONObject(Jsoup.parse(driver.getPageSource()).text());
-//
-//		// Close phantomjs Driver
-//		driver.close();
-//
-		//return jsonObject;
-		return null;
+	public String instantAnswerSearch(String query) {
+		return this.search(query).get(0);
 	}
 
 	public static WebSearch instanceOf() {
 		return new WebSearch();
 	}
+
+	@Override
+	public void close() { }
 }
