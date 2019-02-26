@@ -6,13 +6,6 @@ import java.util.List;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 public class WebSearch {
 	private WebSearch() { }
@@ -26,14 +19,10 @@ public class WebSearch {
 	public List<String> search(String query) throws Exception {
 		final String CLASSNAME = "result__a";
 
-		final HashSet<String> tempSet = new HashSet<String>();
-		Document doc = this.getPage(query);
+		HashSet<String> tempSet = new HashSet<String>();
 
 		try {
-			// Find all titles, urls, and descriptions
-			for (Element element : doc.getElementsByClass(CLASSNAME)) {
-				tempSet.add(element.attr("href"));
-			}
+			Document doc = this.getPage(query);
 
 			doc.getElementsByClass(CLASSNAME).forEach(element -> {
 				tempSet.add(element.attr("href"));
