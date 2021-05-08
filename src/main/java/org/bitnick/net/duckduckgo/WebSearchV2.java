@@ -1,4 +1,4 @@
-import java.util.List;
+package org.bitnick.net.duckduckgo;
 
 public class WebSearchV2 extends WebSearch {
     public static WebSearchV2 instanceOf() {
