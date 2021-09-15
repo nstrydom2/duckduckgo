@@ -28,7 +28,7 @@ projects `pom.xml` file
 
 ```xml
 <dependency>
-    <groupId>org.bitnick.duckduckgo</groupId>
+    <groupId>org.bitnick.web</groupId>
     <artifactId>duckduckgo</artifactId>
     <version>[CURRENT VERSION]</version>
 </dependency>
