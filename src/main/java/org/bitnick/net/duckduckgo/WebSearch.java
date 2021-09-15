@@ -1,13 +1,5 @@
 package org.bitnick.net.duckduckgo;
 
-/**
- * Class for creating an object to make queries to
- * duckduckgo in a Java API
- *
- * @author Nicholas Strydom
- * @version 0.1.5
- */
-
 import org.bitnick.net.duckduckgo.entity.SearchResult;
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
@@ -24,6 +16,13 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Class for creating an object to make queries to
+ * duckduckgo in a Java API
+ *
+ * @author Nicholas Strydom
+ * @version 0.1.2
+ */
 public class WebSearch {
 
     /**
