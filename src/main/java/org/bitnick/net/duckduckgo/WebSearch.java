@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -32,8 +33,8 @@ public class WebSearch {
      * @return Document
      * @throws Exception
      */
-    public static Document getPage(String query) throws Exception {
-        return WebSearch.getPage(query, 0);
+    public Document getPage(String query) throws Exception {
+        return this.getPage(query, 0);
     }
 
     /**
@@ -43,7 +44,7 @@ public class WebSearch {
      * @return
      * @throws Exception
      */
-    private static Document getPage(String query, int retryCount) throws Exception {
+    public Document getPage(String query, int retryCount) throws Exception {
         final String DUCKDUCKGO_HOST = "http://html.duckduckgo.com";
         final String SEARCH_ENDPOINT = "/html";
         final String QUERY_PARAMETER = "q=" + URLEncoder.encode(query.toLowerCase(),
@@ -60,18 +61,19 @@ public class WebSearch {
                         response.url().toString());
 
             Document doc = response.parse();
-            if (doc == null)
-                throw new IOException("Html document was null");
+            if (doc.text().equals(""))
+                throw new Exception("Html document was null");
 
             return doc;
         } catch (HttpStatusException hex) {
             if (retryCount < 3)
-                return WebSearch.getPage(query, retryCount + 1);
+                return this.getPage(query, retryCount + 1);
 
-            return null;
+            return new Document("");
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+
+            return new Document("");
         }
     }
 
@@ -82,14 +84,14 @@ public class WebSearch {
      * @param query Search query for duckduckgo
      * @return
      */
-    public List<SearchResult> search(String query) {
+    public List<SearchResult> search(String query) throws Exception {
         final String RESULT_TITLE_CLASSNAME = "result__a";
         final String DESC_CLASSNAME = "result__snippet";
 
         try {
-            Document doc = WebSearch.getPage(query);
-            if (doc == null)
-                throw new IOException("Unable to load Html document.");
+            Document doc = this.getPage(query);
+            if (doc.text().equals(""))
+                throw new Exception("Unable to load Html document.");
 
             Elements elements = doc.getElementsByClass(RESULT_TITLE_CLASSNAME);
             List<SearchResult> results = elements.stream()
@@ -113,20 +115,22 @@ public class WebSearch {
             return results;
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+
+            return new ArrayList<>();
         }
     }
 
     /**
-     * Instant answer solution, completely inefficient but easy
-     * and not redundant
+     * Instant answer solution, completely inefficient
      *
      * @param query Search query for duckduckgo
      * @return
      */
-    public SearchResult instantAnswerSearch(String query) {
+    public SearchResult instantAnswerSearch(String query) throws Exception {
         return this.search(query).get(0);
     }
+
+    private WebSearch() {}
 
     public static WebSearch instanceOf() {
         return new WebSearch();

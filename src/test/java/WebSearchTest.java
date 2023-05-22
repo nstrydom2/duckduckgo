@@ -1,12 +1,17 @@
-import static org.junit.Assert.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.bitnick.net.duckduckgo.WebSearch;
 import org.bitnick.net.duckduckgo.entity.SearchResult;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mockito;
 import static org.assertj.core.api.Assertions.*;
-
-import java.util.List;
+import static org.mockito.ArgumentMatchers.anyString;
 
 
 public class WebSearchTest {
@@ -18,23 +23,41 @@ public class WebSearchTest {
 	}
 
 	@Test
-	public void returnsListOfSearchResultsNotNullAndNotEmpty() {
-		final WebSearch webSearchTest = WebSearch.instanceOf();
+	public void returnsListOfSearchResultsNotNullAndNotEmpty() throws Exception {
+		Path resourceDirectory = Paths.get("src","test","resources");
 
-		List<SearchResult> testList = webSearchTest.search("anonfile api");
+		WebSearch mockedWebSearch = Mockito.spy(WebSearch.instanceOf());
+
+		Path testHtmlPath = Path.of(resourceDirectory.toFile().getAbsolutePath() + "\\Test.html");
+		File testHtmlFile = new File(String.valueOf(testHtmlPath));
+
+		Document doc = Jsoup.parse(testHtmlFile, "UTF-8");
+		Mockito.when(mockedWebSearch.getPage(anyString())).thenReturn(doc);
+
+		List<SearchResult> testList = mockedWebSearch.search("anonfile api");
 		assertThat(testList)
 				.isNotNull()
 				.isInstanceOf(List.class)
 				.isNotEmpty()
 				.doesNotContainNull()
-				.hasSizeBetween(20, 30);
+				.hasSizeBetween(1, 12);
 	}
 
 	@Test
-	public void returnsInstantAnswerSearchReturnIsNotNull() {
-		final WebSearch webSearchTest = WebSearch.instanceOf();
+	public void returnsInstantAnswerSearchReturnIsNotNull() throws Exception {
+		Path resourceDirectory = Paths.get("src","test","resources");
 
-		SearchResult result = webSearchTest.instantAnswerSearch("anonfile api");
-		assertThat(result).isNotNull();
+		WebSearch mockedWebSearch = Mockito.spy(WebSearch.instanceOf());
+
+		Path testHtmlPath = Path.of(resourceDirectory.toFile().getAbsolutePath() + "\\Test.html");
+		File testHtmlFile = new File(String.valueOf(testHtmlPath));
+
+		Document doc = Jsoup.parse(testHtmlFile, "UTF-8");
+		Mockito.when(mockedWebSearch.getPage(anyString())).thenReturn(doc);
+
+		SearchResult result = mockedWebSearch.instantAnswerSearch("anonfile api");
+		assertThat(result)
+				.isNotNull()
+				.isInstanceOf(SearchResult.class);
 	}
 }
