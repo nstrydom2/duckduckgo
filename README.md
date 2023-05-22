@@ -1,5 +1,7 @@
 # Unofficial Duckduckgo API
 
+[![CI]([https://github.com/nstrydom2/duckduckgo/blob/master/.github/workflows/maven.yml/badge.svg?branch=master)](https://github.com/nstrydom2/duckduckgo/blob/master/.github/workflows/maven.yml)
+
 This is an unofficial Duckduckgo API created to grab the first 25 results queried from <duckduckgo.com>. The website <duckduckgo.com> does provide an api, however I didn't like the results. So, now we are here... I rolled my own unofficial Duckduckgo API for easy utilization in a Java based project. Just make sure you're rocking maven in project, and you're in our little club :wink: 
 
 ## Getting Started
